@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: case-study-flask-api
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app

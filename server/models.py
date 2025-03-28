@@ -14,8 +14,16 @@ class Pool(Base):
 
     loans = relationship("Loan", back_populates="pool")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "pool_name": self.pool_name,
+        }
+
+
     def __repr__(self):
         return f"<Pool(id={self.id}, pool_name='{self.pool_name}')>"
+    
 
 
 class Loan(Base):
@@ -37,6 +45,25 @@ class Loan(Base):
     property_value = Column(Numeric(12, 2), nullable=False)
 
     pool = relationship("Pool", back_populates="loans")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "pool_id": self.pool_id,
+            "pool_name": self.pool.pool_name if self.pool else None,
+            "loan_date": self.loan_date.isoformat(),
+            "original_principal": float(self.original_principal),
+            "interest_rate": f"{self.interest_rate * 100:.2f}%",
+            "payment": float(self.payment),
+            "current_principal": float(self.current_principal),
+            "borrower": f"{self.borrower_first_name} {self.borrower_last_name}",
+            "address": self.address,
+            "city": self.city,
+            "state": self.state,
+            "zip": self.zip,
+            "property_value": float(self.property_value),
+            "loan_to_value_ratio": round(float(self.current_principal) / float(self.property_value), 6)
+        }
 
     def __repr__(self):
         return f"<Loan(id={self.id}, pool_id={self.pool_id})>"
