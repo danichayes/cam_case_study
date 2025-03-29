@@ -1,3 +1,4 @@
+"""Creates tabkles based on defined models."""
 from db import engine
 from models import Base
 

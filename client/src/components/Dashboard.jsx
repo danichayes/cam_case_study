@@ -5,7 +5,7 @@ import ViewSelector from "./ViewSelector";
 import PortfolioSummary from "./PortfolioSummary";
 
 const Dashboard = () => {
-  const [view, setView] = useState("table"); // or 'chart'
+  const [view, setView] = useState("table"); 
 
   console.log(view)
   return (

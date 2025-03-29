@@ -1,8 +1,8 @@
+"""Routes for pool data."""
 from flask import Blueprint, jsonify
 from db import SessionLocal
 from models import Pool, Loan
 from http import HTTPStatus
-from sqlalchemy.orm import joinedload
 from sqlalchemy import func
 
 pool_routes = Blueprint("pools", __name__, url_prefix="/pools")

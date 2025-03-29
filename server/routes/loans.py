@@ -1,3 +1,4 @@
+"""Routes for loan data."""
 from sqlalchemy.orm import joinedload
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
@@ -94,4 +95,3 @@ def parse_interest_rate(raw_value):
         return float(raw_value)
     except (ValueError, TypeError) as e:
         print(f"Failed to parse interest rate: {raw_value} → {e}")
-        return None  # or raise depending on your needs

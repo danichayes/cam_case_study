@@ -33,7 +33,7 @@ class Loan(Base):
     pool_id = Column(Integer, ForeignKey("pools.id"), nullable=False)
     loan_date = Column(Date, nullable=False)
     original_principal = Column(Numeric(12, 2), nullable=False)
-    interest_rate = Column(Float, nullable=False)  # e.g., 0.0450 = 4.50%
+    interest_rate = Column(Float, nullable=False) 
     payment = Column(Numeric(12, 2), nullable=False)
     current_principal = Column(Numeric(12, 2), nullable=False)
     borrower_first_name = Column(String, nullable=False)
@@ -62,7 +62,6 @@ class Loan(Base):
             "state": self.state,
             "zip": self.zip,
             "property_value": float(self.property_value),
-            # "loan_to_value_ratio": round(float(self.current_principal) / float(self.property_value), 6)
         }
 
     def __repr__(self):

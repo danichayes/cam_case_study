@@ -39,7 +39,7 @@ const LoanTable = () => {
         const principal = parseFloat(params.data.current_principal);
         const value = parseFloat(params.data.property_value);
         if (!principal || !value || value === 0) return null;
-        return +(principal / value).toFixed(6); // rounded to 6 decimals
+        return +(principal / value).toFixed(6); 
       },
       valueFormatter: (params) =>
         params.value != null ? `${(params.value * 100).toFixed(2)}%` : "—",
@@ -61,7 +61,7 @@ const LoanTable = () => {
     },
     { headerName: "Payment", field: "payment", editable: true },
     {
-      headerName: "Expected Duration",
+      headerName: "Expected Duration", // want to calc this on the front end so it can update in real time with changes to current pmt, rate and current principal
       valueGetter: (params) => {
         const principal = parseFloat(params.data.current_principal);
         const payment = parseFloat(params.data.payment);
@@ -93,7 +93,7 @@ const LoanTable = () => {
         return `${params.value} mo`;
       },
       sortable: true,
-      filter: "agTextColumnFilter", // now filtering mixed content (string + number)
+      filter: "agTextColumnFilter", 
       floatingFilter: true,
       resizable: true,
     },
@@ -126,7 +126,6 @@ const LoanTable = () => {
     filter: true,
     floatingFilter: true,
     resizable: true,
-    // width: 150, // optional: makes columns auto-stretch
   };
   const loadData = () => {
     fetchLoans()

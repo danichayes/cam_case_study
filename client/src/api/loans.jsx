@@ -16,7 +16,7 @@ export const updateLoans = async (updatedLoans) => {
   
     if (!res.ok) throw new Error("Failed to update loans");
   
-    return await res.json(); // optionally return updated IDs
+    return await res.json(); 
   };
 
   export const fetchPortfolioSummary = async () => {
