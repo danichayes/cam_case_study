@@ -53,7 +53,7 @@ class Loan(Base):
             "pool_name": self.pool.pool_name if self.pool else None,
             "loan_date": self.loan_date.isoformat(),
             "original_principal": float(self.original_principal),
-            "interest_rate": f"{self.interest_rate * 100:.2f}%",
+            "interest_rate": f"{self.interest_rate:.2f}%",
             "payment": float(self.payment),
             "current_principal": float(self.current_principal),
             "borrower": f"{self.borrower_first_name} {self.borrower_last_name}",
@@ -62,7 +62,7 @@ class Loan(Base):
             "state": self.state,
             "zip": self.zip,
             "property_value": float(self.property_value),
-            "loan_to_value_ratio": round(float(self.current_principal) / float(self.property_value), 6)
+            # "loan_to_value_ratio": round(float(self.current_principal) / float(self.property_value), 6)
         }
 
     def __repr__(self):

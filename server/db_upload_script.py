@@ -2,13 +2,66 @@
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from server.models import Base, Pool, Loan
+from models import Base, Pool, Loan
 from dotenv import load_dotenv
 from decimal import Decimal, ROUND_HALF_UP
 import os
 
+abbrev_to_state = {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PA": "Pennsylvania",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming"
+}
 
 load_dotenv()
+
 
 
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
@@ -77,12 +130,13 @@ def parse_money(val):
 
 def parse_percent(val):
     try:
-        return (Decimal(str(val).replace('%', '').strip()) / Decimal("100")).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP) #Handles float point precision issues
+        return (Decimal(str(val).replace('%', '').strip())).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP) #Handles float point precision issues
     except:
         return None
 
 sheet1["interest_rate"] = sheet1["interest_rate"].apply(parse_percent)
 sheet2["interest_rate"] = sheet2["interest_rate"].apply(parse_percent)
+
 
 for col in ["original_principal", "payment", "current_principal", "property_value"]:
     sheet1[col] = sheet1[col].apply(parse_money)
@@ -92,6 +146,13 @@ sheet1["loan_date"] = pd.to_datetime(sheet1["loan_date"]).dt.date
 sheet2["loan_date"] = pd.to_datetime(sheet2["loan_date"]).dt.date
 sheet1["pool_name"] = sheet1["pool_name"].str.upper()
 sheet2["pool_name"] = sheet2["pool_name"].str.upper()
+sheet1['borrower_last_name'] = sheet1['borrower_last_name'].str.upper()
+sheet1['borrower_first_name'] = sheet1['borrower_first_name'].str.upper()
+sheet2['borrower_last_name'] = sheet2['borrower_last_name'].str.upper()
+sheet2['borrower_first_name'] = sheet2['borrower_first_name'].str.upper()
+sheet1['state'] = sheet1['state'].map(abbrev_to_state)
+
+
 
 combined = pd.concat([
     sheet1[[
