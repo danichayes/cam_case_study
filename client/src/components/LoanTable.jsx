@@ -192,6 +192,7 @@ const LoanTable = () => {
   const handleDiscard = () => {
     setDirtyRows([]);
     loadData();
+    setVisibleSummary(calculateVisibleSummary());
   };
 
   const defaultColDef = {
